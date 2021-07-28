@@ -6,7 +6,6 @@ const authorModel = new mongoose.Schema({
     type:String,
     required:true
    } 
-
 })
 
 module.exports=mongoose.model("Authors",authorModel )

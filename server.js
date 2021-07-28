@@ -9,6 +9,7 @@ const app = express();
 
 
 const indexRouter = require("./route/index");
+const authorRouter = require("./route/authors");
 
 const connectDB = require("./db");
 
@@ -27,6 +28,7 @@ connectDB();
 
 
 app.use("/", indexRouter);
+app.use("/authors", authorRouter);
 
 
 app.use((req,res) => {
