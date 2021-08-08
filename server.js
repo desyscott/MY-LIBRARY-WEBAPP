@@ -7,10 +7,14 @@ const morgan = require("morgan");
 //initialize express app
 const app = express();
 
-
+//import  all index router
 const indexRouter = require("./route/index");
+//import  all author router
 const authorRouter = require("./route/authors");
+//import  all book router
+const bookRouter = require("./route/books")
 
+//import connectDB 
 const connectDB = require("./db");
 
 
@@ -26,26 +30,20 @@ app.use(morgan("dev"));
 connectDB();
 
 
-
 app.use("/", indexRouter);
 app.use("/authors", authorRouter);
+app.use("/books",bookRouter);
 
-
+// middleware to display 404 on undefined route
 app.use((req,res) => {
     res.status(404).render("404");
   })
-
-
-
-
 
 
 const PORT = process.env.PORT || 3000;
 const HOSTNAME = "localhost"
 
 
-
-
 app.listen(PORT,HOSTNAME,() => {
-    console.log(`Express Server running in the ${process.env.NODE_ENV} mode at https://${HOSTNAME}:${PORT} `.green.bold)
+    console.log(`Express Server running in the ${process.env.NODE_ENV} mode at https://${HOSTNAME}:${PORT} 🚀`.green.bold)
 })

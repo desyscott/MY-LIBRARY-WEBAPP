@@ -1,11 +1,19 @@
-const express =require("express");
+const express = require("express");
 
-//initialize express app
+//initialize express router
 const router = express.Router()
 
 
-router.get("/",(req,res)=>{
-    res.render("home");   
+const bookModel =require("../models/booksModel")
+//get the book image from bookModel and display it on the home page
+router.get("/",async(req,res)=>{
+  try{
+    let books = await bookModel.find().sort({createdAt :"desc"}).limit(10).exec()
+    res.render("home",{books}); 
+  }catch{
+      books = []
+  }
+   
 })
 
-module.exports=router;
+module.exports = router;
