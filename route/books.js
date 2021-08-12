@@ -18,7 +18,7 @@ const uploadPath = path.join("public", bookModel.coverImageBasePath)
 
 const imageMimeTypes = ["image/jpg","image/jpeg", "image/png","image/gif"]
 const upload = multer({
-   destination:uploadPath,
+   dest:uploadPath,
    fileFilter: (req,file,callback)=>{
     callback(null, imageMimeTypes.includes(file.mimetype))
    },
