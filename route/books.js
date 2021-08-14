@@ -168,6 +168,7 @@ const renderFormPage = async(res,book,form,hasError = false)=>{
 }
 
 
+
 //function to remove BookCover in the server when an Error occur 
 const removeBookCover = (fileName) => {
   fs.unlink(path.join(uploadPath, fileName), function(err){
@@ -181,3 +182,6 @@ const removeBookCover = (fileName) => {
 
 
 module.exports = router
+
+
+
