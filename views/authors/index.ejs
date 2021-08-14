@@ -1,11 +1,15 @@
 <h1>SEARCH ALL AUTHORS</h1>
+
 <form action="/authors" method="GET">
  <label for="name">Name</label>
- <input type="text" name="name"value="<%=searchOption.name%>" />
+ <input type="text" name="name" value="<%=searchOption.name%>" />
 <button type="submit">search</button>
 </form>
 <br/>
 
 <% authors.forEach((author)=>{%>
     <div><%=author.name%></div>
+    <a href="/authors/<%=author.id%>">View</a>
+<a href="/authors/<%=author.id%>/edit">Edit</a>
+<%-include("../partial/deleteForm-input.ejs",{url:`/authors/${author.id}`})%>
 <%})%>

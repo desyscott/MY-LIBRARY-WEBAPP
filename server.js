@@ -2,7 +2,6 @@ const express = require("express");
 const dotenv = require("dotenv");
 const expressLayout = require("express-ejs-layouts");
 const colors = require("colors");
-const path = require ("path");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
 
@@ -25,11 +24,11 @@ app.set("view engine", "ejs");
 app.set("views",__dirname + "/views");
 app.use(expressLayout);
 app.set("layout",  "layouts/layout.ejs");
-app.use(express.static(path.join("public")));
-app.use(express.urlencoded({extended:false}));
+app.use(methodOverride("_method"));
+app.use(express.static("public"));
+app.use(express.urlencoded({limit:"10mb",extended:false}));
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(methodOverride("_method"));
 connectDB();
 
 
