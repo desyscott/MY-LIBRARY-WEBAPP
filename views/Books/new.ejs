@@ -1,9 +1,11 @@
-<h1>Create A New Book</h1>
+<h1 class="page-header">Create A New Book</h1>
 
 <!-- In other to used files in our Form we set our Form to multipart/form-data
 Which tell the server that is going to include multipart data which could include a file. -->
 <form action="/books" method="POST" enctype="multipart/form-data">
     <%-include("../partial/bookForm-input.ejs")%>
-    <a href="/books">Cancel</a>
-<button>Create</button>
+        <div class="form-btn-end btn-row ">
+            <a class="btn btn-danger" href="/books">Cancel</a>
+            <button class="btn btn-primary">Create</button>
+        </div>
 </form>

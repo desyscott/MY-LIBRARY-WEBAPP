@@ -3,7 +3,6 @@ const express = require("express")
 //initialize the express router
 const router = express.Router()
 
-
 const multer = require("multer")
 const path = require("path")
 const fs = require("fs")
@@ -12,6 +11,7 @@ const fs = require("fs")
 const bookModel = require("../models/booksModel")
 //import the authorsModel form the model
 const authorModel = require("../models/authorsModel")
+
 
 
 //import the bookCover folder from the bookModel and join it to the public folder
@@ -25,9 +25,22 @@ const upload = multer({
    }
 })
 
+const handleErrors=(err)=>{
+console.log(err.message)
+let errors={title:"",coverImageName:"",pageCount:"",publishDate:""}
+
+if(err.message.includes("Book validation failed")){
+Object.values(err.errors).forEach(({properties})=>{
+ console.log( properties)
+errors[properties.path] = properties.message
+})
+}
+return errors;
+}
+
 //Search the book title
 router.get("/",async(req,res)=>{
-    let searchOption = bookModel.find({})
+    let searchOption = bookModel.find()
 
     if(req.query.title!= null  && req.query.title!= ""){
       searchOption = searchOption.regex("title" ,new RegExp(req.query.title,"i"))
@@ -43,7 +56,7 @@ router.get("/",async(req,res)=>{
   
   try{
     const books = await searchOption.exec()
-    res.render("Books/index", {books, searchOption:req.query} )
+    res.render("Books/index", {books, searchParams:req.query} )
   }catch{
       res.redirect("/")
   }
@@ -55,26 +68,26 @@ router.get("/new",(req, res)=>{
 })
 
 //post all requested input to model
-router.post("/", upload.single("cover"),async(req,res)=>{
-const fileName = req.file !=null? req.file.filename : null
-      const book = new bookModel({
-     title:req.body.title,
-     author:req.body.author,
-     publishDate:new Date (req.body.publishDate),
-     pageCount:req.body.pageCount,
-     coverImageName: fileName,
-     description:req.body.description  })
-
-  try{
-     const newBook = await book.save()
-     res.redirect(`Books/${newBook.id}`);
-     }catch{
-    if(book.coverImageName != null){
-      removeBookCover(book.coverImageName )
+router.post("/", upload.single("name"),async(req,res)=>{
+  const fileName = req.file !=null? req.file.filename : null
+        const book = new bookModel({
+      title:req.body.title,
+      author:req.body.author,
+      publishDate:new Date (req.body.publishDate),
+      pageCount:req.body.pageCount,
+      coverImageName: fileName,
+      description:req.body.description  })
+    try{
+      const newBook = await book.save()
+      res.redirect(`Books/${newBook.id}`);
+      }catch(err){
+      if(book.coverImageName != null){
+        removeBookCover(book.coverImageName )
+      }
+      renderNewPage(res,book,true)
+      const errors=handleErrors(err)
+      console.log(errors)
     }
-    renderFormPage(res,book,true)
-    
-  }
 })
 
 
@@ -83,8 +96,9 @@ router.get("/:id",async(req,res)=>{
   try{
  const book = await bookModel.findById(req.params.id).populate("author").exec()
  res.render("Books/show", {book})
-  }catch{
+  }catch(err){
  res.redirect("/")
+ console.log(err)
   }
 })
 
@@ -99,7 +113,7 @@ router.get("/:id/edit",async(req,res)=>{
 })
 
 //PUT route to update the book model
-router.put("/:id",upload.single("cover"),async(req,res)=>{
+router.put("/:id",upload.single("name"),async(req,res)=>{
   const fileName = req.file !=null? req.file.filename : null
   let book
  try{
@@ -112,7 +126,7 @@ router.put("/:id",upload.single("cover"),async(req,res)=>{
     book.coverImageName = fileName 
    
     await book.save()
-    res.redirect(`/Books/${book.id}`)
+    res.redirect(`/books/${book.id}`)
     }catch(err){
       if(book == null ){
         res.redirect("/")
@@ -142,11 +156,11 @@ router.delete("/:id",async(req,res)=>{
 
 
 //function for the new route
-const renderNewPage = async(res,book,form,hasError = false)=>{
+const renderNewPage = async(res,book,hasError = false)=>{
   renderFormPage (res,book,"new",hasError )
 }
 //function for the edit route
-const renderEditPage= async(res,book,form,hasError = false)=>{
+const renderEditPage= async(res,book,hasError = false)=>{
   renderFormPage (res,book,"edit",hasError)
 }
 
@@ -182,6 +196,5 @@ const removeBookCover = (fileName) => {
 
 
 module.exports = router
-
 
 

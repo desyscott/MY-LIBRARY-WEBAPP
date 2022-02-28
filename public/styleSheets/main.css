@@ -1,0 +1,56 @@
+@import "shared/main-variables.css";
+@import "shared/nav.css";
+@import "shared/button.css";
+@import "./shared/font.css";
+@import "./shared//form.css";
+@import "./shared//author.css";
+@import "./shared//book.css";
+
+:root {
+  font-size: 20px;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-family: "Gotham rounded";
+  color: var(--color-text-light);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(
+    to right,
+    var(--color-background-dark),
+    var(--color-background-light)
+  );
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  margin-bottom: 3rem;
+}
+
+.body-container {
+  margin: 0 2rem;
+}
+
+.page-header {
+  font-size: 1.5rem;
+}
+.errMessage{
+    color:hsl(0,100%,50%)
+}
+
+
+@media screen and (max-width:768px){
+  
+}
+
+@media screen and (max-width:480px){
+  
+}
+
+

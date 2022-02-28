@@ -1,0 +1,64 @@
+:root {
+  --form-input-background-color: hsl(var(--color-base-hue), 100%, 30%);
+  --form-input-border-color: hsl(var(--color-base-hue), 100%, 60%);
+  --form-label-font-size: 0.9rem;
+  --form-input-border-focus-color: hsl(var(--color-base-hue), 100%, 90%);
+}
+
+.form-btn-end {
+  display: flex;
+  justify-content: flex-end;
+}
+.form-row {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+.form-item {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+.form-item:first-child {
+  margin-left: 0;
+}
+
+.form-item-no-grow {
+  flex-grow: 0;
+  width: 0;
+}
+.form-item label {
+  font-size: var(--form-label-font-size);
+  margin-left: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.form-item input,
+.form-item textarea,
+.form-item select {
+  height: 2rem;
+  color: var(--color-text-light);
+  background-color: var(--form-input-background-color);
+  border: 1px solid var(--form-input-border-color);
+  border-radius: 0.25rem 0 0.25rem 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: normal;
+  font-family: "Gotham-rounded";
+  outline: none;
+}
+
+.form-item input:focus,
+.form-item textarea:focus,
+.form-item select:focus {
+  border-color: var(--form-input-border-focus-color);
+}
+
+.form-item select option {
+  background-color: hsl(200, 100%, 10%);
+}
+
+.form-item textarea {
+  height: 100%;
+  resize: none;
+}

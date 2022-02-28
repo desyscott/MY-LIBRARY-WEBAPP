@@ -1,7 +1,9 @@
-<h1>CREATE AUTHORS</h1>
+<h1 class="page-header">Create Authors</h1>
 
 <form action="/authors" method="POST">
-    <%-include("../partial/form-input.ejs")%>
-        <a href="/authors">Cancel</a>
-   <button type="submit">Create</button>   
+   <%-include ("../partial/form-input.ejs") %>
+   <div class=" form-btn-end btn-row">
+      <a class="btn btn-danger" href="/authors">Cancel</a>
+      <button class="btn btn-primary" type="submit">Create</button>
+   </div>
 </form>

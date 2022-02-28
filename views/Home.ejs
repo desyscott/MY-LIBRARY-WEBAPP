@@ -1,11 +1,7 @@
-<h1>RECENTLY ADDED</h1>
+<h1 class="page-header">Recently Added</h1>
 
 
-<% books.forEach((book)=>{%>
-    <a href="/books/<%=book.id%>">
-        <img height="150" width="100" src="<%=book.coverImage%>">
-     </a>
-<%})%>
+<%-include("./partial/booksGrid.ejs",{books:books,large:true})%>
 
 
 

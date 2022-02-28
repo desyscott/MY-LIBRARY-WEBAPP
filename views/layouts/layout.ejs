@@ -4,25 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-       body {
-            background-color: aqua;
-            color:#000;
-            font-weight:bold;
-            font-family: 'Courier New', Courier, monospace;
-
-        }
-        a{
-            font:60px;
-            text-decoration: none;
-        }
-       
-    </style>
+    <title>My Library</title>
+   <link rel="stylesheet" href="/styleSheets/main.css">
 </head>
 <body>
-    <%-include("../partial/nav.ejs")%>
-    <%-body%>
-    <%-include("../partial/errorMessage.ejs")%>
+    <div class="container">
+        <%-include("../partial/nav.ejs")%>
+        <div class="body-container">
+            <%-body%>
+            <%-include("../partial/errorMessage.ejs")%>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,42 @@
+/* Defining all the css properties  */
+:root {
+  --nav-link-logo-font-size: 2rem;
+  --nav-link-logo-font-weight: bold;
+  --nav-link-item-font-weight: 300;
+  --nav-link-hover-color: white;
+}
+
+.nav-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+.nav-link-logo {
+  text-decoration: none;
+  color: var(--color-text-light);
+  font-size: var(--nav-link-logo-font-size);
+  font-weight: var(--nav-link-logo-font-weight);
+}
+
+.nav-link-items {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link-item {
+  text-decoration: none;
+  padding: 0.5rem;
+  font-weight: var(--nav-link-item-font-weight);
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+}
+
+.nav-link-item:hover,
+.nav-link-logo:hover {
+  color: var(--nav-link-hover-color);
+}
