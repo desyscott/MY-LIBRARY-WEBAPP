@@ -1,11 +1,11 @@
-// if(process.env.NODE_ENV !== "production"){
-//   require("dotenv").parse()
-// }
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const colors = require("colors");
-const dotenv = require("dotenv");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
 const path = require("path");
@@ -22,7 +22,6 @@ const bookRouter = require("./route/books");
 //import connectDB
 const connectDB = require("./db");
 
-dotenv.config();
 app.set("view engine", "ejs"); 
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout.ejs");

@@ -12,12 +12,15 @@ router.get("/", async (req, res) => {
   const searchOption = {};
 
   if (req.query.name != null && req.query.name !== "") {
+    //using regular expression to search part of the text in our field which use case sensitive format
+    //We add the text we type in the filed to our search searchOption to find it
     searchOption.name = new RegExp(req.query.name, "i");
   }
   try {
     const authors = await authorModel.find(searchOption);
     res.render("authors/index", {
       authors,
+      //sending the query back to user so that it will repopulate the field value after clicking the search
       searchParams: req.query,
     });
   } catch {
