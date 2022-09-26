@@ -9,7 +9,7 @@ const bookModel =require("../models/booksModel")
 router.get("/",async(req,res)=>{
   try{
     let books = await bookModel.find().sort({createdAt :"desc"}).limit(10).exec()
-    res.render("home",{books}); 
+    res.render("Home",{books}); 
   }catch{
       books = []
   }
