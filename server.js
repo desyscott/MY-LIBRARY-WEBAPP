@@ -43,7 +43,7 @@ app.use((req, res) => {
 });
 
 const Port = process.env.PORT || 3000;
-const Hostname = "localhost";
+const Hostname = "0.0.0.0";
 
 app.listen(Port, Hostname, () => {
   console.log(
