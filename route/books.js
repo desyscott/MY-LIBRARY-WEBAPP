@@ -1,4 +1,5 @@
 const express = require("express");
+const expressAsyncHandler = require("express-async-handler");
 
 //initialize the express router
 const router = express.Router();
@@ -23,26 +24,9 @@ const upload = multer({
   },
 });
 
-const handleErrors = (err) => {
-  console.log(err.message);
-  let errors = {
-    title: "",
-    coverImageName: "",
-    pageCount: "",
-    publishDate: "",
-  };
-
-  if (err.message.includes("Book validation failed")) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      console.log(properties);
-      errors[properties.path] = properties.message;
-    });
-  }
-  return errors;
-};
 
 //Search the book title
-router.get("/", async (req, res) => {
+router.get("/", expressAsyncHandler(async (req, res) => {
   let searchOption = bookModel.find();
 
   if (req.query.title != null && req.query.title != "") {
@@ -66,7 +50,7 @@ router.get("/", async (req, res) => {
   } catch {
     res.redirect("/");
   }
-});
+}));
 
 //get the form book input
 router.get("/new", (req, res) => {
@@ -74,8 +58,9 @@ router.get("/new", (req, res) => {
 });
 
 //post all requested input to model
-router.post("/", upload.single("name"), async (req, res) => {
-  const fileName = req.file != null ? req.file.filename : null;
+router.post("/", upload.single("name"),expressAsyncHandler(async (req, res) => {
+  const fileName = req.file && req.file !== null ? req.file.filename : null;
+  
   const book = new bookModel({
     title: req.body.title,
     author: req.body.author,
@@ -87,18 +72,28 @@ router.post("/", upload.single("name"), async (req, res) => {
   try {
     const newBook = await book.save();
     res.redirect(`Books/${newBook.id}`);
-  } catch (err) {
-    if (book.coverImageName != null) {
+    
+  } catch  {
+    if (book.coverImageName !== null) {
       removeBookCover(book.coverImageName);
     }
     renderNewPage(res, book, true);
-    const errors = handleErrors(err);
-    console.log(errors);
+   
   }
-});
+}));
+
+
+//function to remove BookCover in the server when an Error occur
+const removeBookCover = (fileName) => {
+  fs.unlink(path.join(uploadPath, fileName), function (err) {
+    if (err) {
+      console.error(err);
+    }
+  });
+};
 
 //Show individual book
-router.get("/:id", async (req, res) => {
+router.get("/:id",expressAsyncHandler(async (req, res) => {
   try {
     const book = await bookModel
       .findById(req.params.id)
@@ -109,20 +104,20 @@ router.get("/:id", async (req, res) => {
     res.redirect("/");
     console.log(err);
   }
-});
+}));
 
 //get the Edit book form
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", expressAsyncHandler(async (req, res) => {
   try {
     const book = await bookModel.findById(req.params.id);
     renderEditPage(res, book);
   } catch {
     res.redirect("/");
   }
-});
+}));
 
 //PUT route to update the book model
-router.put("/:id", upload.single("name"), async (req, res) => {
+router.put("/:id", upload.single("name"),expressAsyncHandler(async (req, res) => {
   const fileName = req.file != null ? req.file.filename : null;
   let book;
   try {
@@ -144,10 +139,10 @@ router.put("/:id", upload.single("name"), async (req, res) => {
     }
     console.log(err);
   }
-});
+}));
 
 //delete route
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",expressAsyncHandler(async (req, res) => {
   let book;
   try {
     book = await bookModel.findById(req.params.id);
@@ -160,18 +155,18 @@ router.delete("/:id", async (req, res) => {
       res.render("Books/show", { book, errorMessage: "Could not delete book" });
     }
   }
-});
+}));
 
 //function for the new route
-const renderNewPage = async (res, book, hasError = false) => {
+const renderNewPage = expressAsyncHandler(async (res, book, hasError = false) => {
   renderFormPage(res, book, "new", hasError);
-};
+});
 //function for the edit route
-const renderEditPage = async (res, book, hasError = false) => {
+const renderEditPage = expressAsyncHandler(async (res, book, hasError = false) => {
   renderFormPage(res, book, "edit", hasError);
-};
+});
 
-const renderFormPage = async (res, book, form, hasError = false) => {
+const renderFormPage =expressAsyncHandler( async (res, book, form, hasError = false) => {
   try {
     const authors = await authorModel.find({});
     const params = { authors, book };
@@ -186,15 +181,7 @@ const renderFormPage = async (res, book, form, hasError = false) => {
   } catch {
     res.redirect("/Books");
   }
-};
+});
 
-//function to remove BookCover in the server when an Error occur
-const removeBookCover = (fileName) => {
-  fs.unlink(path.join(uploadPath, fileName), function (err) {
-    if (err) {
-      console.error(err);
-    }
-  });
-};
 
 module.exports = router;

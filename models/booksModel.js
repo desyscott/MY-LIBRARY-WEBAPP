@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const path = require("path");
 
-//import the upload/booksCovers
+//importing the upload/booksCovers
 const coverImageBasePath = "uploads/booksCovers";
+
 const bookModel = new mongoose.Schema({
   title: {
     type: String,
@@ -25,6 +26,8 @@ const bookModel = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
+  
+  //we storing the name of the image in the database and storing the image itself in a file system
   coverImageName: {
     type: String,
     required: [true,"This field is required"],
@@ -37,8 +40,10 @@ const bookModel = new mongoose.Schema({
   },
 });
 
-//when coverImagePath is called to get the src of image  the mongoose virtual will create a property that act like  the schema property that
-//to get the actual image in the public path
+
+//the virtual property will act as the any of the property in the model and it will derive it properties from the coverImageName property
+//when coverImagePath is called, it is going to call the get function
+
 bookModel.virtual("coverImagePath").get(function () {
   if (this.coverImageName != null) {
     return path.join("/", coverImageBasePath, this.coverImageName);
@@ -46,4 +51,6 @@ bookModel.virtual("coverImagePath").get(function () {
 });
 
 module.exports = mongoose.model("Book", bookModel);
+
+//exporting the upload/booksCovers
 module.exports.coverImageBasePath = coverImageBasePath;

@@ -4,7 +4,8 @@
 <div class="book-grid <%=bookGridClass%>">
 <%books.forEach((book)=>{%>
     <a href="/books/<%=book.id%>">
-       <img class="book-cover <%=bookCoverClass%>" src="<%=book.coverImagePath%>">
+       <img class="book-cover <%=bookCoverClass%>" src="<%=book.coverImagePath%>"> 
+       <!-- getting the book src from the direct path in the book model where cover image is uploaded -->
     </a>
     <%})%>
 </div>

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "engines": {
     "node": "16.13.1"
-    },
+  },
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
+    "express-async-handler": "^1.2.0",
     "express-ejs-layouts": "^2.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.13.14",

@@ -1,4 +1,5 @@
 const express = require("express");
+const expressAsyncHandler = require("express-async-handler");
 
 //Initialize the express router
 const router = express.Router();
@@ -8,7 +9,7 @@ const authorModel = require("../models/authorsModel");
 const bookModel = require("../models/booksModel");
 
 //Search All the authors
-router.get("/", async (req, res) => {
+router.get("/",expressAsyncHandler(async (req, res) => {
   const searchOption = {};
 
   if (req.query.name != null && req.query.name !== "") {
@@ -26,7 +27,8 @@ router.get("/", async (req, res) => {
   } catch {
     res.redirect("/");
   }
-});
+}));
+
 
 //get the new authors form
 router.get("/new", (req, res) => {
@@ -34,7 +36,7 @@ router.get("/new", (req, res) => {
 });
 
 //post the create authors input to model
-router.post("/", async (req, res) => {
+router.post("/",expressAsyncHandler(async (req, res) => {
   const author = new authorModel({ name: req.body.name });
   try {
     const newAuthor = await author.save();
@@ -45,10 +47,10 @@ router.post("/", async (req, res) => {
       errorMessage: "Error Creating  New author",
     });
   }
-});
+}));
 
 //Show all authors base on their id
-router.get("/:id", async (req, res) => {
+router.get("/:id",expressAsyncHandler(async (req, res) => {
   try {
     const author = await authorModel.findById(req.params.id);
     //find the author book 
@@ -58,21 +60,21 @@ router.get("/:id", async (req, res) => {
     console.log(err);
     res.render("/");
   }
-});
+}));
 
 //get the new edit form `
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", expressAsyncHandler(async (req, res) => {
   try {
     const author = await authorModel.findById(req.params.id);
     res.render("authors/edit", { author });
   } catch {
     res.redirect("/authors");
   }
-});
+}));
 
 
 //update the edit authors
-router.put("/:id", async (req, res) => {
+router.put("/:id",expressAsyncHandler(async (req, res) => {
   let author;
   try {
     //we find the author by the id we get from the request,we change the author's name and save
@@ -91,10 +93,10 @@ router.put("/:id", async (req, res) => {
       });
     }
   }
-});
+}));
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",expressAsyncHandler(async (req, res) => {
   let author;
   try {
     //we find the specific author by their id by requesting it from the params
@@ -112,6 +114,6 @@ router.delete("/:id", async (req, res) => {
     console.log(errorMessage)
     
   }
-});
+}));
 
 module.exports = router;
