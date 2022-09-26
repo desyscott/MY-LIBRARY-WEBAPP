@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- File pond stylesheet -->
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <!-- File pond preview stylesheet -->
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet" />
+    <script defer src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+    <script defer src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+
+    <!-- Load FilePond library -->
+    <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+    <!-- script tag to allow us to setup  filePond library -->
+    <script defer src="javascripts/fileUpload.js"></script>
+
+
     <title>My Library</title>
-   <link rel="stylesheet" href="/styleSheets/main.css">
+    <link rel="stylesheet" href="/styleSheets/main.css">
 </head>
+
 <body>
     <div class="container">
         <%-include("../partial/nav.ejs")%>
-        <div class="body-container">
-            <%-body%>
-            <%-include("../partial/errorMessage.ejs")%>
-        </div>
+            <div class="body-container">
+                <%-body%>
+                    <%-include("../partial/errorMessage.ejs")%>
+            </div>
     </div>
 </body>
+
 </html>

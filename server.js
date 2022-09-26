@@ -1,10 +1,14 @@
+// if(process.env.NODE_ENV !== "production"){
+//   require("dotenv").parse()
+// }
+
 const express = require("express");
-const dotenv = require("dotenv");
 const expressLayout = require("express-ejs-layouts");
 const colors = require("colors");
+const dotenv = require("dotenv");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
-
+const path = require("path");
 //initialize express app
 const app = express();
 
@@ -19,7 +23,7 @@ const bookRouter = require("./route/books");
 const connectDB = require("./db");
 
 dotenv.config();
-app.set("view engine", "ejs");
+app.set("view engine", "ejs"); 
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout.ejs");
 app.use(expressLayout);
@@ -39,12 +43,12 @@ app.use((req, res) => {
   res.status(404).render("404");
 });
 
-const PORT = process.env.PORT || 5000;
-const HOSTNAME = "localhost";
+const Port = process.env.PORT || 3000;
+const Hostname = "localhost";
 
-app.listen(PORT, HOSTNAME, () => {
+app.listen(Port, Hostname, () => {
   console.log(
-    `Express Server running in the ${process.env.NODE_ENV} mode at https://${HOSTNAME}:${PORT} 🚀`
+  `Express Server running in the ${process.env.NODE_ENV} mode at https://${Hostname}:${Port} 🚀`
       .yellow.bold
   );
 });
